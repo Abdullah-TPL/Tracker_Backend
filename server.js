@@ -1,10 +1,13 @@
 const net = require('net');
 const connectDB = require('./config/db');
 const dataController = require('./app/controllers/dataController');
+const dotenv = require('dotenv');
 
-const port = 3000;
+
+
+dotenv.config();
+const port = process.env.PORT || 3000;
 const host = '0.0.0.0';
-
 // Connect to MongoDB
 connectDB();
 
