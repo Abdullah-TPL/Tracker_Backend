@@ -10,8 +10,18 @@ const axios = require('axios');
 // Load environment variables from .env file
 dotenv.config();
 
-const port = process.env.PORT || 3000;
+const DEFAULT_PORT = 3000;
+const port = getValidPort(process.env.PORT) || DEFAULT_PORT;
 const host = process.env.HOST || getLocalIpAddress(); // Get local IP dynamically
+
+// Function to get a valid port number
+function getValidPort(port) {
+  const parsedPort = parseInt(port, 10);
+  if (!isNaN(parsedPort) && parsedPort >= 0 && parsedPort < 65536) {
+    return parsedPort;
+  }
+  return null;
+}
 
 // Function to get the local IP address of the server
 function getLocalIpAddress() {
@@ -93,9 +103,6 @@ io.on('connection', async (socket) => {
   // Fetch and print public IP address of client
   const publicIP = await getPublicIpAddress();
   console.log('Public IP of client:', publicIP);
-
-  // Print internal IP address of server
-  console.log('Internal IP of server:', host);
 
   // Example event handling
   socket.on('message', (data) => {
