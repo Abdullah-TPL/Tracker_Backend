@@ -1,8 +1,8 @@
 const net = require('net');
 
 // Replace with your server's IP and port
-const PORT = 3000;
-const HOST = '192.168.56.1';
+const PORT = 10000;
+const HOST = '10.223.192.186';
 
 // Create a client instance
 const client = new net.Socket();
