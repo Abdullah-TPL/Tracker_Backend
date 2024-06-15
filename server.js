@@ -38,34 +38,12 @@ function getLocalIpAddress() {
   return '127.0.0.1'; // Default to localhost if no valid IP found
 }
 
-// Function to check if an IP address is internal
-function isInternalIp(ip) {
-  const internalIpRanges = [
-    /^10\./,        // 10.0.0.0 - 10.255.255.255
-    /^172\.(1[6-9]|2[0-9]|3[0-1])\./, // 172.16.0.0 - 172.31.255.255
-    /^192\.168\./,  // 192.168.0.0 - 192.168.255.255
-    /^127\./,       // Loopback
-    /^::1$/,        // IPv6 loopback
-    /^fe80::/       // Link-local addresses
-  ];
-
-  return internalIpRanges.some((range) => range.test(ip));
-}
-
 // Connect to MongoDB
 connectDB();
 
 // Create a TCP server for Arduino data
 const tcpServer = net.createServer((socket) => {
-  const clientIp = socket.remoteAddress;
-
-  if (isInternalIp(clientIp)) {
-    console.log('Rejected connection from internal IP:', clientIp);
-    socket.destroy();
-    return;
-  }
-
-  console.log('Client connected:', clientIp, socket.remotePort);
+  console.log('Client connected:', socket.remoteAddress, socket.remotePort);
 
   // Handle incoming data from Arduino
   socket.on('data', async (data) => {
