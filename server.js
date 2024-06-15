@@ -94,6 +94,9 @@ io.on('connection', async (socket) => {
   const publicIP = await getPublicIpAddress();
   console.log('Public IP of client:', publicIP);
 
+  // Print internal IP address of server
+  console.log('Internal IP of server:', host);
+
   // Example event handling
   socket.on('message', (data) => {
     console.log('Message from client:', data);
